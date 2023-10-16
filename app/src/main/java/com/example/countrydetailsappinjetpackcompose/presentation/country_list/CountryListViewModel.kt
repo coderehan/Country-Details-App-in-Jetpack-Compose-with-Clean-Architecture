@@ -23,8 +23,8 @@ class CountryListViewModel @Inject constructor(private val getCountryListUseCase
         getCountryList()
     }
 
-    private val countryListMutableStateFlow = mutableStateOf(CountryListState())                     // Private MutableStateFlow
-    val countryListStateFlow : State<CountryListState> = countryListMutableStateFlow                // Public StateFlow
+    private val _countryList = mutableStateOf(CountryListState())                     // Private MutableStateFlow
+    val countryList : State<CountryListState> = _countryList                // Public StateFlow
 
     // This is our view model function
     private fun getCountryList(){
@@ -33,13 +33,13 @@ class CountryListViewModel @Inject constructor(private val getCountryListUseCase
 
             when(it){
                 is NetworkResult.Loading -> {
-                    countryListMutableStateFlow.value = CountryListState(isLoading = true)
+                    _countryList.value = CountryListState(isLoading = true)
                 }
                 is NetworkResult.Success -> {
-                    countryListMutableStateFlow.value = CountryListState(data = it.data)
+                    _countryList.value = CountryListState(data = it.data)
                 }
                 is NetworkResult.Error -> {
-                    countryListMutableStateFlow.value = CountryListState(error = it.message.toString())
+                    _countryList.value = CountryListState(error = it.message.toString())
                 }
             }
         }.launchIn(viewModelScope)      // We have to tell here on which scope we will launch this viewmodel function

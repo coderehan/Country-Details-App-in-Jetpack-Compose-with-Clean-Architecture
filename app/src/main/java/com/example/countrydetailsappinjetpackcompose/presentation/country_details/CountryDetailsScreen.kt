@@ -42,7 +42,7 @@ fun CountryDetailsScreen(
         }
     ) {
 
-        val result = countryDetailsViewModel.countryDetailsStateFlow.value
+        val result = countryDetailsViewModel.countryDetails.value
 
         // Loading case
         if (result.isLoading) {

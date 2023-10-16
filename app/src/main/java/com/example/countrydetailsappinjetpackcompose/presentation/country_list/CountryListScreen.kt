@@ -36,7 +36,7 @@ fun CountryListScreen(
     countryListViewModel: CountryListViewModel = hiltViewModel()
 ) {
 
-    val result = countryListViewModel.countryListStateFlow.value
+    val result = countryListViewModel.countryList.value
 
     Scaffold(
         topBar = {

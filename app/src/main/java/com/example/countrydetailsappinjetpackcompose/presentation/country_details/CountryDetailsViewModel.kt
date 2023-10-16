@@ -22,8 +22,8 @@ class CountryDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val countryDetailsMutableStateFlow = mutableStateOf(CountryDetailsState())                    // Private MutableStateFlow
-    val countryDetailsStateFlow : State<CountryDetailsState> = countryDetailsMutableStateFlow                // Public StateFlow
+    private val _countryDetails = mutableStateOf(CountryDetailsState())                    // Private MutableStateFlow
+    val countryDetails : State<CountryDetailsState> = _countryDetails                // Public StateFlow
 
     init {
         savedStateHandle.getLiveData<String>("country_name").value?.let {
@@ -38,13 +38,13 @@ class CountryDetailsViewModel @Inject constructor(
 
             when(it){
                 is NetworkResult.Loading -> {
-                    countryDetailsMutableStateFlow.value = CountryDetailsState(isLoading = true)
+                    _countryDetails.value = CountryDetailsState(isLoading = true)
                 }
                 is NetworkResult.Success -> {
-                    countryDetailsMutableStateFlow.value = CountryDetailsState(data = it.data)
+                    _countryDetails.value = CountryDetailsState(data = it.data)
                 }
                 is NetworkResult.Error -> {
-                    countryDetailsMutableStateFlow.value = CountryDetailsState(error = it.message.toString())
+                    _countryDetails.value = CountryDetailsState(error = it.message.toString())
                 }
             }
         }.launchIn(viewModelScope)      // We have to tell here on which scope we will launch this viewmodel function
